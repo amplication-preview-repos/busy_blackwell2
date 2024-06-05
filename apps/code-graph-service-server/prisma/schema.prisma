@@ -1,0 +1,37 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Method {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  updatedAt DateTime @updatedAt
+}
+
+model ClassModel {
+  createdAt   DateTime @default(now())
+  file        File?    @relation(fields: [fileId], references: [id])
+  fileId      String?
+  id          String   @id @default(cuid())
+  name        String?
+  parentClass String?
+  updatedAt   DateTime @updatedAt
+}
+
+model FunctionModel {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  updatedAt DateTime @updatedAt
+}
+
+model File {
+  classes   ClassModel[]
+  createdAt DateTime     @default(now())
+  id        String       @id @default(cuid())
+  updatedAt DateTime     @updatedAt
+}
